@@ -1,6 +1,7 @@
 const colors = require('colors');
 
 colors.setTheme({
+  brace: 'white',
   input: 'grey',
   prompt: 'cyan',
   info: 'green',
@@ -44,7 +45,9 @@ module.exports.success = function(msg) {
   console.log(
     '[' + time + '] '
     + msg
-    + ' [SUCCESS]'.info
+    + ' ['.brace
+    + 'SUCCESS' .info
+    + ']'.brace
   );
 }
 
@@ -53,7 +56,20 @@ module.exports.failed = function(msg) {
   console.log(
     '[' + time + '] '
     + msg
-    + ' [WARN]'.warn
+    + ' ['.brace
+    + 'FAILED' .error
+    + ']'.brace
+  );
+}
+
+module.exports.warn = function(msg) {
+  var time = getTime();
+  console.log(
+    '[' + time + '] '
+    + msg
+    + ' ['.brace
+    + 'WARN' .warn
+    + ']'.brace
   );
 }
 
@@ -68,6 +84,9 @@ module.exports.welcome = function() {
                                     __/ |
                                    |___/
     `.rainbow);
+    console.log('Invite JefferyBot to your server!  '
+    + 'https://discordapp.com/api/oauth2/authorize?client_id=423592273151000576&permissions=506981494&scope=bot' .debug);
+    console.log();
 }
 
 function pad(n, width, z) {
@@ -78,6 +97,6 @@ function pad(n, width, z) {
 
 function getTime() {
   var t = new Date();
-  var time = (pad(t.getHours(), 2) + ":" + pad(t.getMinutes(), 2) + ":" + pad(t.getSeconds(), 2))
+  var time = (pad(t.getHours(), 2) + ':' + pad(t.getMinutes(), 2) + ':' + pad(t.getSeconds(), 2))
   return time;
 }

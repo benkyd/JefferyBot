@@ -11,6 +11,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 Logger.welcome();
 
+
 /*checks if config exists*/
 if (!fs.existsSync('resources/config.json') || !fs.existsSync('resources/servers.json')) {
     Logger.log('Creating the config...');
@@ -23,7 +24,7 @@ if (!fs.existsSync('resources/config.json') || !fs.existsSync('resources/servers
         Config.writeToFile();
     }
     catch (e) {
-        Logger.failed(`Could not create the config: ${e.message}`);
+        Logger.warn(`Could not create the config: ${e.message}`);
     }
 }
 /*loads config*/
@@ -33,32 +34,41 @@ try {
   Logger.success('Congig loaded');
 }
 catch (e) {
-  Logger.failed(`Could not load the config: ${e.message}`);
+  Logger.warn(`Could not load the config: ${e.message}`);
 }
 /*loads the commands*/
 try {
-  Logger.log("Loading commands...");
+  Logger.log('Loading commands...');
   CommandManager.loadCommands();
   Logger.success('Commands loaded');
 } catch (e) {
-  Logger.log(`Could not load the commands: ${e.message}`);
+  Logger.warn;(`Could not load the commands: ${e.message}`);
 }
 /*connects to discord*/
 try {
-  Logger.log("Starting discord client...");
+  Logger.log('Starting discord client...');
   client.login(Config.getconfig().Token);
 } catch (e) {
   Logger.failed(`Could not connect to discord: ${e.message}`)
 }
-/*adds all servers not in config to config*/
-client.guilds.array().forEach((g) => {
-  Config.addServer(g);
-  Config.writeToFile();
-});
+
 /*once connected*/
 client.on('ready', () => {
   try {
     Logger.success('Connected to discords API');
+
+
+    /*adds all servers not in config to config*/
+    Logger.log('Setting up the server spesific commands...')
+    client.guilds.array().forEach((g) => {
+      if (!Config.getservers()[g.id]) {
+        Config.addServer(g);
+      }
+    });
+    Config.writeToFile();
+    Logger.success('Server commands set up');
+
+
     Logger.log('Logging in...')
     client.user.setPresence('online');
     client.user.setActivity(Config.getconfig().NowPlaying);
@@ -66,7 +76,7 @@ client.on('ready', () => {
     Logger.log('Ready!');
     console.log();
   } catch (e) {
-    Logger.failed('Somthing went wrong with discords API')
+    Logger.failed(`Somthing went wrong with discords API: ${e.message}`)
   }
 });
 
@@ -77,8 +87,8 @@ client.on('message', async (message) => {
   /*if it starts with prefix loaded from config*/
   if (message.content.startsWith(Config.getconfig().Prefix)) {
     Logger.logMSG(message);
-    var msg = message.content.substring(Config.getconfig().Prefix.length);
-    var args = msg.split(" ");
+    var msg = message.content.toLowerCase().substring(Config.getconfig().Prefix.length).toLowerCase();
+    var args = msg.toLowerCase().split(" ");
 
     /*command manager checks if command exists*/
     if (CommandManager.commands[args[0]]) {
@@ -109,5 +119,5 @@ client.on('guildDelete', async (guild) => {
 });
 
 client.on('error', async (error) => {
-  Logger.warn(error);
+  Logger.warn('Somthing went wrong');
 })

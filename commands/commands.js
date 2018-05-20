@@ -6,7 +6,7 @@ const Config = require('../config');
 /*message object, messaage full, message args, discord client*/
 
 module.exports.say = function(message, msg, args, discordclient) {
-  message.channel.send(msg);
+  message.channel.send(msg.slice(4, msg.length));
 }
 
 module.exports.version = function(message, msg, args, discordclient) {
