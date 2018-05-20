@@ -3,6 +3,7 @@ const Logger = require('./logger');
 const Config = require('./config');
 const Commands = require('./commands/commands')
 const CommandManager = require('./commandmanager');
+const Helper = require('./helper')
 const http = require('http');
 const ping = require('ping');
 const fs = require('fs');
@@ -119,5 +120,4 @@ client.on('guildDelete', async (guild) => {
 });
 
 client.on('error', async (error) => {
-  Logger.warn('Somthing went wrong');
 })

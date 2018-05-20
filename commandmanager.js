@@ -30,6 +30,7 @@ module.exports.loadCommands = function() {
     addCommand('Say', 'say', undefined, 'say [input]', 'repeats the input', false, Commands.say);
     addCommand('Version', 'version', undefined, 'version', 'returns the version', false, Commands.version);
     addCommand('Ping', 'ping', undefined, 'ping', 'returns round trip to discords servers', false, Commands.ping);
+    addCommand('Cat', 'cat', undefined, 'cat', 'returns a picture of a cat', false, Commands.cat);
 
     //rule commands
     addCommand('Rules', 'rules', undefined, 'rules', 'returns all the rules for the server the command was issued on', false, RuleCommands.rules);
