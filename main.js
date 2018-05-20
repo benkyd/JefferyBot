@@ -1,5 +1,6 @@
 const Logger = require('./logger');
 const Config = require('./config');
+const Commands = require('./commands/commands')
 const CommandManager = require('./commandmanager');
 const http = require('http');
 const ping = require('ping');
@@ -26,10 +27,16 @@ if (!fs.existsSync('resources/config.json')) {
 Logger.log('Loading config...');
 try {
   Config.loadFromFile();
-
 }
 catch (e) {
   Logger.failed(`Could not load the config: ${e.message}`);
+}
+/*loads the commands*/
+try {
+  Logger.log("Loading commands...");
+  CommandManager.loadCommands();
+} catch (e) {
+  Logger.log(`Could not load the commands: ${e.message}`);
 }
 /*connects to discord*/
 try {
@@ -43,37 +50,24 @@ client.on('ready', () => {
   client.user.setPresence('online');
   client.user.setActivity(Config.getconfig().NowPlaying);
   Logger.log(`Logged in as ${client.user.tag}`);
-  Logger.log('Ready!')
+  Logger.log('Ready!');
   console.log();
 });
 
 /*on message event*/
 client.on('message', async (message) => {
-  /*if it starts with prefix*/
+  /*if it starts with prefix loaded from config*/
   if (message.content.startsWith(Config.getconfig().Prefix)) {
     Logger.logMSG(message);
     var msg = message.content.substring(Config.getconfig().Prefix.length);
     var args = msg.split(" ");
 
-    /*temp switch statement to manage commands*/
-    switch (args[0].toUpperCase()) {
-      case 'PING':
-        ping.promise.probe("discordapp.com", {
-            timeout: 10
-        }).then((output) => {
-            message.channel.send(`:white_check_mark: \`${output.avg}ms\``);
-        });
-        return;
-      case 'VERSION':
-        var em = new Discord.RichEmbed();
-        em.setColor('BLUE');
-        em.setTitle('Version:');
-        em.setDescription(Config.getconfig().Version);
-        message.channel.send(em);
-        return;
-      default:
-        message.channel.send(`:no_entry: \`The command '${args[0]}' does not exist...\``);
-        break;
+    /*command manager checks if command exists*/
+    if (CommandManager.commands[args[0]]) {
+      /*sends command: message object, messaage full, message args, discord client*/
+      CommandManager.commands[args[0]].functionReference(message, msg, args, client);
+    } else {
+      message.channel.send(`:no_entry_sign: \`The command \'${args[0]}\' does not exist\``);
     }
   }
 });

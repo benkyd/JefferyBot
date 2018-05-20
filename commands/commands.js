@@ -6,7 +6,7 @@ const Config = require('../config');
 /*message object, messaage full, message args, discord client*/
 
 module.exports.say = function(message, msg, args, discordclient) {
-
+  message.channel.send(msg);
 }
 
 module.exports.version = function(message, msg, args, discordclient) {
@@ -15,7 +15,6 @@ module.exports.version = function(message, msg, args, discordclient) {
   em.setTitle('Version:');
   em.setDescription(Config.getconfig().Version);
   message.channel.send(em);
-  return;
 }
 
 module.exports.ping = function(message, msg, args, discordclient) {

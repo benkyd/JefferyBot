@@ -1,7 +1,7 @@
 const fs = require("fs");
 
-var config = null;
-
+var config = {};
+var rules = {};
 
 module.exports.getconfig = function() {
     return config;
@@ -17,9 +17,8 @@ module.exports.loadDefaults = function() {
     NowPlaying: "RealLife.exe",
     Prefix: "+",
     Version: "2.0.1",
-
-    Rules: ["Rule 0", "Rule 1"]
   };
+
 };
 
 module.exports.loadFromFile = function() {
