@@ -1,3 +1,4 @@
+const colors = require('colors');
 const Logger = require('./logger');
 const Config = require('./config');
 const Commands = require('./commands/commands')
@@ -8,15 +9,17 @@ const fs = require('fs');
 const Discord = require('discord.js');
 
 const client = new Discord.Client();
+Logger.welcome();
 
 /*checks if config exists*/
-if (!fs.existsSync('resources/config.json')) {
+if (!fs.existsSync('resources/config.json') || !fs.existsSync('resources/servers.json')) {
     Logger.log('Creating the config...');
     try {
         if (!fs.existsSync('resources/')) {
             fs.mkdirSync('resources/');
         }
         Config.loadDefaults();
+        /*gets all current servers info*/
         Config.writeToFile();
     }
     catch (e) {
@@ -24,9 +27,10 @@ if (!fs.existsSync('resources/config.json')) {
     }
 }
 /*loads config*/
-Logger.log('Loading config...');
 try {
+  Logger.log('Loading config...');
   Config.loadFromFile();
+  Logger.success('Congig loaded');
 }
 catch (e) {
   Logger.failed(`Could not load the config: ${e.message}`);
@@ -35,6 +39,7 @@ catch (e) {
 try {
   Logger.log("Loading commands...");
   CommandManager.loadCommands();
+  Logger.success('Commands loaded');
 } catch (e) {
   Logger.log(`Could not load the commands: ${e.message}`);
 }
@@ -45,14 +50,27 @@ try {
 } catch (e) {
   Logger.failed(`Could not connect to discord: ${e.message}`)
 }
+/*adds all servers not in config to config*/
+client.guilds.array().forEach((g) => {
+  Config.addServer(g);
+  Config.writeToFile();
+});
 /*once connected*/
 client.on('ready', () => {
-  client.user.setPresence('online');
-  client.user.setActivity(Config.getconfig().NowPlaying);
-  Logger.log(`Logged in as ${client.user.tag}`);
-  Logger.log('Ready!');
-  console.log();
+  try {
+    Logger.success('Connected to discords API');
+    Logger.log('Logging in...')
+    client.user.setPresence('online');
+    client.user.setActivity(Config.getconfig().NowPlaying);
+    Logger.success(`Logged in as ${client.user.tag}`);
+    Logger.log('Ready!');
+    console.log();
+  } catch (e) {
+    Logger.failed('Somthing went wrong with discords API')
+  }
 });
+
+
 
 /*on message event*/
 client.on('message', async (message) => {
@@ -71,3 +89,25 @@ client.on('message', async (message) => {
     }
   }
 });
+
+/*on join server event*/
+client.on('guildCreate', async (guild) => {
+  Logger.log(`JefferyBot was invited to the ${guild.name} server!`);
+  try {
+    Logger.log(`Setting up the config for ${guild.name}`)
+    Config.addServer(guild);
+    Config.writeToFile();
+    Logger.success(`Set up the config for the ${guild.name} server`)
+  } catch (e) {
+    Logger.failed('Could not set up the server config');
+  }
+});
+
+/*on leave server event*/
+client.on('guildDelete', async (guild) => {
+  Logger.log(`JefferyBot left the ${guild.name} server!`)
+});
+
+client.on('error', async (error) => {
+  Logger.warn(error);
+})
