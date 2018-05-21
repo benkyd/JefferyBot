@@ -32,6 +32,7 @@ module.exports.loadCommands = function() {
     addCommand('Ping', 'ping', undefined, 'ping', 'returns round trip to discords servers', false, Commands.ping);
     addCommand('Cat', 'cat', undefined, 'cat', 'returns a picture of a cat', false, Commands.cat);
     addCommand('Dog', 'dog', undefined, 'dog', 'returns a picture of a dog', false, Commands.dog);
+    addCommand('Undo', 'undo', undefined, 'undo', 'deletes last message sent by Jeffery from the channel the command was issued in', false, Commands.undo);
 
     //rule commands
     addCommand('Rules', 'rules', undefined, 'rules', 'returns all the rules for the server the command was issued on', false, RuleCommands.rules);

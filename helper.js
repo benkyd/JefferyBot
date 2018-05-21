@@ -9,13 +9,17 @@ const fs = require('fs');
 const request = require('request');
 const Discord = require('discord.js');
 
-module.exports.requestPromise = function (url) {
+module.exports.requestPromise = function(url) {
   return new Promise((resolve, reject) => {
-    request(url, function (error, response, body) {
+    request(url, function(error, response, body) {
       if (error) {
         reject(error);
       }
       resolve(body);
     });
   });
+}
+
+module.exports.isUserAdmin = function(message) {
+  
 }

@@ -51,3 +51,17 @@ module.exports.dog = async function(message, msg, args, discordclient) {
   em.setImage(output);
   message.channel.send(em);
 }
+
+module.exports.undo = function (message, msg, args, discordclient) {
+  message.channel.fetchMessages({ limit: 50 })
+  .then((_messages) => {
+    var messages = _messages.array();
+    for (var i = 0; i < messages.length; i++) {
+      if (messages[i].author.id === discordclient.user.id) {
+          messages[i].delete();
+          return;
+      }
+    }
+  })
+  .catch();
+};
