@@ -88,8 +88,9 @@ client.on('message', async (message) => {
   /*if it starts with prefix loaded from config*/
   if (message.content.startsWith(Config.getconfig().Prefix)) {
     Logger.logMSG(message);
-    var msg = message.content.toLowerCase().substring(Config.getconfig().Prefix.length).toLowerCase();
-    var args = msg.toLowerCase().split(" ");
+    var msg = message.content.toLowerCase().substring(Config.getconfig().Prefix.length);
+    var args = message.content.substring(Config.getconfig().Prefix.length).split(" ");
+    args[0] = args[0].toLowerCase();
 
     /*command manager checks if command exists*/
     if (CommandManager.commands[args[0]]) {
@@ -103,12 +104,12 @@ client.on('message', async (message) => {
 
 /*on join server event*/
 client.on('guildCreate', async (guild) => {
-  Logger.log(`JefferyBot was invited to the ${guild.name} server!`);
+  Logger.log(`JefferyBot was invited to the \'${guild.name}\' server!`);
   try {
-    Logger.log(`Setting up the config for ${guild.name}`)
+    Logger.log(`Setting up the config for \'${guild.name}\'`)
     Config.addServer(guild);
     Config.writeToFile();
-    Logger.success(`Set up the config for the ${guild.name} server`)
+    Logger.success(`Set up the config for the \'${guild.name}\' server`)
   } catch (e) {
     Logger.failed('Could not set up the server config');
   }
@@ -116,7 +117,7 @@ client.on('guildCreate', async (guild) => {
 
 /*on leave server event*/
 client.on('guildDelete', async (guild) => {
-  Logger.log(`JefferyBot left the ${guild.name} server!`)
+  Logger.log(`JefferyBot left the \'${guild.name}\' server!`)
 });
 
 client.on('error', async (error) => {

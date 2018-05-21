@@ -27,8 +27,8 @@ module.exports.ping = async function(message, msg, args, discordclient) {
 }
 
 module.exports.cat = async function(message, msg, args, discordclient) {
-   var input = 'http://thecatapi.com/api/images/get?format=xml&results_per_page=1&api_key=MzA1Njcz';
-   var result = await Helper.requestPromise(input);
+   var url = 'http://thecatapi.com/api/images/get?format=xml&results_per_page=1&api_key=MzA1Njcz';
+   var result = await Helper.requestPromise(url);
    var output = result.match(/<url>(.*?)<\/url>/)[1];
 
    var em = new Discord.RichEmbed();
@@ -38,5 +38,16 @@ module.exports.cat = async function(message, msg, args, discordclient) {
   }
 
 module.exports.dog = async function(message, msg, args, discordclient) {
-
+  var url = 'https://dog.ceo/api/breeds/image/random';
+  try {
+  var result = await Helper.requestPromise(url);
+  var output = JSON.parse(result).message;
+  } catch (e) {
+    message.channel.send(`:no_entry_sign: \`Somthing went wrong\``);
+    return;
+  }
+  var em = new Discord.RichEmbed();
+  em.setColor('BLUE');
+  em.setImage(output);
+  message.channel.send(em);
 }

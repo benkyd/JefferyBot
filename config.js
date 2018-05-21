@@ -22,7 +22,7 @@ module.exports.setservers = function(con) {
 module.exports.addServer = function(guild) {
   servers[guild.id] = {
     name: guild.name,
-    rules: [],
+    rules: ["Oh yeah, arrays start at 0"],
     adminroles: []
   }
 }
