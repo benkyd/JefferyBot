@@ -21,7 +21,6 @@ module.exports.help = async function(message, msg, args, discordclient) {
       em.addField('Usage:', '\`' + commands[args[1]].usage + '\`');
       em.addField('Description:', commands[args[1]].desc);
 
-      //console.log(commands[args[1]]);
       message.channel.send(em)
     } else {
       message.channel.send(`:no_entry_sign: \`That command does not exist\``);

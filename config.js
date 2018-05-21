@@ -39,8 +39,8 @@ module.exports.loadDefaults = function() {
     name: 'SERVER NAME',
     rules: ['RULE 0', 'RULE 1'],
     adminroles: ['123456789101112', '123456789101112']
-  }
-};
+  };
+}
 
 module.exports.loadFromFile = function() {
   config = JSON.parse(fs.readFileSync('resources/config.json'));
