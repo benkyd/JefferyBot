@@ -2,9 +2,34 @@ const Discord = require('discord.js');
 const ping = require('ping');
 const fs = require('fs');
 const Config = require('../config.js');
+const CommandManager = require('../commandmanager.js');
 const Helper = require('../helper.js');
 
 /*message object, messaage full, message args, discord client*/
+
+module.exports.help = async function(message, msg, args, discordclient) {
+  var commands = CommandManager.commands;
+  if (args[1]) {
+    if (commands[args[1].toLowerCase()]) {
+      var em = new Discord.RichEmbed();
+      em.setColor('BLUE');
+      em.setTitle(commands[args[1]].name);
+      em.addField('Command:', commands[args[1]].command);
+      if (commands[args[1]].alt != undefined) {
+        em.addField('Alt:', commands[args[1]].alt)
+      }
+      em.addField('Usage:', '\`' + commands[args[1]].usage + '\`');
+      em.addField('Description:', commands[args[1]].desc);
+
+      //console.log(commands[args[1]]);
+      message.channel.send(em)
+    } else {
+      message.channel.send(`:no_entry_sign: \`That command does not exist\``);
+    }
+  } else {
+    message.channel.send(`See a full command list at http://www.plane000.co.uk`); //temporary
+  }
+}
 
 module.exports.say = async function(message, msg, args, discordclient) {
   message.channel.send(msg.slice(4, msg.length));

@@ -27,6 +27,7 @@ function addCommand(name, command, alt, usage, desc, requrePerms, functionRefere
 /*command name, command, alt, usage, description, require permission, reference*/
 module.exports.loadCommands = function() {
     //general commands
+    addCommand('Help', 'help', undefined, 'help [command] or [help]', 'returns a usage chart for the command requested, or returns a link to a command list', false, Commands.help);
     addCommand('Say', 'say', undefined, 'say [input]', 'repeats the input', false, Commands.say);
     addCommand('Version', 'version', undefined, 'version', 'returns the version', false, Commands.version);
     addCommand('Ping', 'ping', undefined, 'ping', 'returns round trip to discords servers', false, Commands.ping);
@@ -39,6 +40,6 @@ module.exports.loadCommands = function() {
     addCommand('Rule', 'rule', undefined, 'rule [rule number]', 'returns corresponding rule for the server the command was issued on', false, RuleCommands.rule);
     addCommand('AddRule', 'addrule', undefined, 'addrule [new rule]', 'adds a rule to the rule list for the server the command was issued on', true, RuleCommands.addrule);
     addCommand('DelRule', 'delrule', undefined, 'delrule [rule number]', 'deletes the corresponding rule for the server the command was issued on', true, RuleCommands.delrule);
-    addCommand('EditRule', 'editrule', undefined, 'editrule [rune number] [new rule]', 'edits the corresponding rule for the server the command was issued on', true, RuleCommands.editrule);
+    addCommand('EditRule', 'editrule', undefined, 'editrule [rule number] [new rule]', 'edits the corresponding rule for the server the command was issued on', true, RuleCommands.editrule);
 
 }
