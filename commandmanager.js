@@ -1,12 +1,12 @@
+const Discord = require('discord.js');
+const http = require('http');
+const fs = require('fs');
 const Logger = require('./logger');
 const Config = require('./config');
 const Commands = require('./commands/commands')
 const RuleCommands = require('./commands/rulecommands')
+const AdminCommands = require('./commands/admincommands')
 const CommandManager = require('./main');
-const http = require('http');
-const ping = require('ping');
-const fs = require('fs');
-const Discord = require('discord.js');
 
 var commands = {};
 
@@ -42,4 +42,9 @@ module.exports.loadCommands = function() {
     addCommand('DelRule', 'delrule', undefined, 'delrule [rule number]', 'Deletes the corresponding rule for the server the command was issued on', true, RuleCommands.delrule);
     addCommand('EditRule', 'editrule', undefined, 'editrule [rule number] [new rule]', 'Edits the corresponding rule for the server the command was issued on', true, RuleCommands.editrule);
 
+    //admin commands
+    addCommand('Shutdown', 'stop', undefined, 'stop', 'Shutsdown JefferyBot', true, AdminCommands.stop);
+    addCommand('Reload', 'reload', undefined, 'reload', 'Reloads the server config and the misc config', false, AdminCommands.reload);
+    addCommand('Set Prefix', 'setprefix', undefined, 'setprefix [new prefix]', 'Changes Jeffery\'s prefix to the new prefix', true, AdminCommands.setprefix);
+    addCommand('Set Game', 'setgame', undefined, 'setgame [new game]', 'Changes Jeffery\'s game to the new game', true, AdminCommands.setgame);
 }

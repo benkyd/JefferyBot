@@ -1,15 +1,15 @@
+const Discord = require('discord.js');
+const http = require('http');
+const ping = require('ping');
+const fs = require('fs');
 const colors = require('colors');
 const Logger = require('./logger');
 const Config = require('./config');
 const Commands = require('./commands/commands')
 const CommandManager = require('./commandmanager');
 const Helper = require('./helper')
-const http = require('http');
-const ping = require('ping');
-const fs = require('fs');
-const Discord = require('discord.js');
 
-const client = new Discord.Client();
+const client = new Discord.Client({autoReconnect:true});
 Logger.welcome();
 
 
@@ -117,8 +117,13 @@ client.on('guildCreate', async (guild) => {
 
 /*on leave server event*/
 client.on('guildDelete', async (guild) => {
-  Logger.log(`JefferyBot left the \'${guild.name}\' server!`)
+  Logger.log(`JefferyBot left the \'${guild.name}\' server!`);
+});
+
+client.on("disconnected", function () {
+  Logger.failed('Disconnected...')
+  process.exit(1);
 });
 
 client.on('error', async (error) => {
-})
+});
