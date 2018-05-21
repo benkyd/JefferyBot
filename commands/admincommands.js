@@ -11,7 +11,6 @@ module.exports.stop = async function(message, msg, args, discordclient) {
   message.channel.send(':white_check_mark: \`Disconnected...\`');
   Logger.failed('Disconnected');
   discordclient.destroy();
-  //discordclient.disconnect();
 }
 
 module.exports.reload = async function(message, msg, args, discordclient) {

@@ -89,7 +89,7 @@ client.on('message', async (message) => {
   if (message.content.startsWith(Config.getconfig().Prefix)) {
     Logger.logMSG(message);
     var msg = message.content.toLowerCase().substring(Config.getconfig().Prefix.length);
-    var args = message.content.substring(Config.getconfig().Prefix.length).split(" ");
+    var args = message.content.substring(Config.getconfig().Prefix.length).split(' ');
     args[0] = args[0].toLowerCase();
 
     /*command manager checks if command exists*/
