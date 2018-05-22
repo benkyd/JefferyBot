@@ -226,8 +226,8 @@ module.exports.vote = async function(message, msg, args, discordclient) {
 }
 
 async function startPoll(messageObj, args) {
-  var parsedOptions = await parseOptions(args);
-  var parsedVotes = await getVotes(parsedOptions)
+  var parsedOptions =args.slice(2).join(" ").match(/(\\.|[^/])+/g)
+  var parsedVotes = await getStartingVotes(parsedOptions)
   polls[messageObj.guild.id] = {
     options: parsedOptions,
     votes: parsedVotes,
@@ -235,11 +235,7 @@ async function startPoll(messageObj, args) {
   }
 }
 
-async function parseOptions(args) {
-  return args.slice(2).join(" ").match(/(\\.|[^/])+/g)
-}
-
-async function getVotes(options) {
+async function getStartingVotes(options) {
   var votes = [];
   for (i in options) {
     votes.push('0');

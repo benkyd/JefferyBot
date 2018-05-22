@@ -23,6 +23,7 @@ module.exports.addServer = function(guild) {
   servers[guild.id] = {
     name: guild.name,
     rules: ["Oh yeah, arrays start at 0"],
+    prefix: '+',
     adminroles: []
   }
 }
@@ -31,13 +32,13 @@ module.exports.loadDefaults = function() {
   config = {
     Token: 'DISCORD_TOKEN',
     NowPlaying: 'RealLife.exe',
-    Prefix: '+',
     Version: '2.0.1',
   };
 
   servers['SERVER ID'] = {
     name: 'SERVER NAME',
     rules: ['RULE 0', 'RULE 1'],
+    prefix: '+',
     adminroles: ['123456789101112', '123456789101112']
   };
 }

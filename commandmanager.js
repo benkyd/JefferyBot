@@ -25,6 +25,7 @@ function addCommand(name, command, alt, usage, desc, requrePerms, functionRefere
 }
 
 /*command name, command, alt, usage, description, require permission, reference*/
+
 module.exports.loadCommands = function() {
     //general commands
     addCommand('Help', 'help', undefined, 'help [command] or [help]', 'Returns a usage chart for the command requested, or returns a link to a command list', false, Commands.help);
@@ -49,6 +50,6 @@ module.exports.loadCommands = function() {
     //admin commands
     addCommand('Shutdown', 'stop', undefined, 'stop', 'Shutsdown JefferyBot', true, AdminCommands.stop);
     addCommand('Reload', 'reload', undefined, 'reload', 'Reloads the server config and the misc config', false, AdminCommands.reload);
-    addCommand('Set Prefix', 'setprefix', undefined, 'setprefix [new prefix]', 'Changes Jeffery\'s prefix to the new prefix', true, AdminCommands.setprefix);
+    addCommand('Set Prefix', 'setprefix', undefined, 'setprefix [new prefix]', 'Changes Jeffery\'s prefix in the server it was issued in to the new prefix', true, AdminCommands.setprefix);
     addCommand('Set Game', 'setgame', undefined, 'setgame [new game]', 'Changes Jeffery\'s game to the new game', true, AdminCommands.setgame);
 }

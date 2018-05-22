@@ -86,10 +86,14 @@ client.on('ready', () => {
 /*on message event*/
 client.on('message', async (message) => {
   /*if it starts with prefix loaded from config*/
-  if (message.content.startsWith(Config.getconfig().Prefix)) {
+  if (message.content.startsWith(Config.getservers()[message.guild.id].prefix)) {
+    if (message.content.startsWith(';-;') || message.content.startsWith(';_;')) {
+      return;
+    }
+
     Logger.logMSG(message);
-    var msg = message.content.toLowerCase().substring(Config.getconfig().Prefix.length);
-    var args = message.content.substring(Config.getconfig().Prefix.length).split(' ');
+    var msg = message.content.toLowerCase().substring(Config.getservers()[message.guild.id].prefix.length);
+    var args = message.content.substring(Config.getservers()[message.guild.id].prefix.length).split(' ');
     args[0] = args[0].toLowerCase();
 
     /*command manager checks if command exists*/
