@@ -89,3 +89,9 @@ module.exports.undo = function (message, msg, args, discordclient) {
   })
   .catch();
 };
+
+module.exports.hug = function(message, msg, args, discordclient) {
+  var em = new Discord.RichEmbed();
+  em.setImage('https://cdn.discordapp.com/attachments/345580737149403146/442232811605458957/cat-instantly-hugs-plush-toy.gif');
+  messgae.channel.send(em);
+}

@@ -28,13 +28,14 @@ function addCommand(name, command, alt, usage, desc, requrePerms, functionRefere
 
 module.exports.loadCommands = function() {
     //general commands
-    addCommand('Help', 'help', undefined, 'help [command] or [help]', 'Returns a usage chart for the command requested, or returns a link to a command list', false, Commands.help);
+    addCommand('Help', 'help', undefined, 'help [command] or help', 'Returns a usage chart for the command requested, or returns a link to a command list', false, Commands.help);
     addCommand('Say', 'say', undefined, 'say [input]', 'Repeats the input', false, Commands.say);
     addCommand('Version', 'version', undefined, 'version', 'Returns the version', false, Commands.version);
     addCommand('Ping', 'ping', undefined, 'ping', 'Returns round trip time to discords servers', false, Commands.ping);
     addCommand('Cat', 'cat', undefined, 'cat', 'Returns a picture of a cat', false, Commands.cat);
     addCommand('Dog', 'dog', undefined, 'dog', 'Returns a picture of a dog', false, Commands.dog);
     addCommand('Undo', 'undo', undefined, 'undo', 'Deletes last message sent by Jeffery from the channel the command was issued in', false, Commands.undo);
+    addCommand('HUG', 'hug', undefined, 'hug', 'Sends cutest hugs', false, Commands.hug);
 
     //rule commands
     addCommand('Rules', 'rules', undefined, 'rules', 'Returns all the rules for the server the command was issued on', false, MultiServerCommands.rules);

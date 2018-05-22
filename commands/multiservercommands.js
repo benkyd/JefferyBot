@@ -216,7 +216,6 @@ module.exports.vote = async function(message, msg, args, discordclient) {
       polls[message.guild.id] = poll;
 
       message.channel.send(`${message.author} voted for ${option}!`);
-      //console.log(polls);
     } else {
       message.channel.send(':no_entry_sign: \`You have allready voted\`');
     }
