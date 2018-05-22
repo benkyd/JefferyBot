@@ -5,6 +5,7 @@ const Logger = require('./logger');
 const Config = require('./config');
 const Commands = require('./commands/commands')
 const MultiServerCommands = require('./commands/multiservercommands')
+const SpaceCommands = require('./commands/spacecommands')
 const AdminCommands = require('./commands/admincommands')
 const CommandManager = require('./main');
 
@@ -47,6 +48,9 @@ module.exports.loadCommands = function() {
     //vote commands
     addCommand('Poll', 'poll', undefined, 'poll start [option1/option2...] or poll stop', 'Starts/stops an automated poll with the options given as a third argument to \'poll start\' and are seperated with a \'/\' with no spaces, stopping a poll will produce the results', false, MultiServerCommands.poll);
     addCommand('Vote', 'vote', undefined, 'vote [option]', 'Places your vote on the option you chose, based on the running poll in the server the \'poll start\' command was issued in', false, MultiServerCommands.vote);
+
+    //space commands
+    addCommand('Next Launch', 'nextlaunch', undefined, 'nextlaunch', 'Returns information on the next significant space flight in the space industry', false, SpaceCommands.nextlaunch);
 
     //admin commands
     addCommand('Shutdown', 'stop', undefined, 'stop', 'Shutsdown JefferyBot', true, AdminCommands.stop);

@@ -65,9 +65,9 @@ module.exports.dog = async function(message, msg, args, discordclient) {
   var url = 'https://dog.ceo/api/breeds/image/random';
   try {
   var result = await Helper.requestPromise(url);
-  var output = JSON.parse(result).message;
+  var output = JSON.parse(result).messsage;
   } catch (e) {
-    message.channel.send(`:no_entry_sign: \`Somthing went wrong\``);
+    message.channel.send(`:no_entry_sign: \`There was a problem with the API...\``);
     return;
   }
   var em = new Discord.RichEmbed();
@@ -92,6 +92,7 @@ module.exports.undo = function (message, msg, args, discordclient) {
 
 module.exports.hug = function(message, msg, args, discordclient) {
   var em = new Discord.RichEmbed();
+  em.setColor('BLUE');
   em.setImage('https://cdn.discordapp.com/attachments/345580737149403146/442232811605458957/cat-instantly-hugs-plush-toy.gif');
   message.channel.send(em);
 }

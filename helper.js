@@ -9,7 +9,7 @@ const Config = require('./config');
 const Commands = require('./commands/commands')
 const CommandManager = require('./commandmanager');
 
-module.exports.requestPromise = function(url) {
+module.exports.requestPromise = async function(url) {
   return new Promise((resolve, reject) => {
     request(url, function(error, response, body) {
       if (error) {
