@@ -145,8 +145,41 @@ module.exports.poll = async function(message, msg, args, discordclient) {
       return;
     }
   } else if (args[1] == 'stop') {
-    Math.max(polls[message.guild.id].votes)
+    if (polls[message.guild.id]) {
 
+      var results = polls[message.guild.id].votes
+          .map((x, i) =>
+              {
+                  return {
+                      count: x,
+                      value: polls[message.guild.id].options[i]
+                  };
+               }
+          )
+          .sort((a, b) => b.count - a.count)
+          .filter((x, i, arr) => x.count == arr[0].count)
+          //.map(x => x.value)
+
+      var winners = '';
+      var votesForWinners = '';
+
+      for (var i = 0; i < results.length; i++) {
+          winners += results[i].value + ' and ';
+          votesForWinners = results[i].count;
+      }
+      winners = winners.substring(0, winners.length - 5);
+
+      var em = new Discord.RichEmbed();
+      em.setTitle('Poll Results');
+      em.setColor('BLUE');
+      em.addField(winners + ' wins!', 'with ' + votesForWinners + ' vote(s)');
+      message.channel.send(em);
+      delete polls[message.guild.id];
+      return;
+    } else {
+      message.channel.send(':no_entry_sign: \`There are no polls running, you can type \'poll start\' to start a new poll\`');
+      return;
+    }
   } else {
     message.channel.send(':no_entry_sign: \`Incorrect arguments given, try \'help poll\' for usage\`');
     return;
@@ -163,7 +196,7 @@ module.exports.vote = async function(message, msg, args, discordclient) {
       }
     }
     if (!hasVoted) {
-      var option = args[1].toLowerCase();
+      var option = args.slice(1).join(" ");
       var index;
 
       for (var i = 0; i < poll.options.length; i++) {
@@ -183,8 +216,7 @@ module.exports.vote = async function(message, msg, args, discordclient) {
       polls[message.guild.id] = poll;
 
       message.channel.send(`${message.author} voted for ${option}!`);
-
-      console.log(poll);
+      //console.log(polls);
     } else {
       message.channel.send(':no_entry_sign: \`You have allready voted\`');
     }
@@ -204,7 +236,7 @@ async function startPoll(messageObj, args) {
 }
 
 async function parseOptions(args) {
-  return args[2].toLowerCase().split('/');
+  return args.slice(2).join(" ").match(/(\\.|[^/])+/g)
 }
 
 async function getVotes(options) {

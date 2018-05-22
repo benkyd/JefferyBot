@@ -43,7 +43,7 @@ module.exports.loadCommands = function() {
     addCommand('EditRule', 'editrule', undefined, 'editrule [rule number] [new rule]', 'Edits the corresponding rule for the server the command was issued on', true, MultiServerCommands.editrule);
 
     //vote commands
-    addCommand('Poll', 'poll', undefined, 'poll start [option1/option2...] or poll stop', 'Starts/stops an automated poll with the options given as a third argument to \'poll start\' and are seperated with a \'/\' with no spaces', false, MultiServerCommands.poll);
+    addCommand('Poll', 'poll', undefined, 'poll start [option1/option2...] or poll stop', 'Starts/stops an automated poll with the options given as a third argument to \'poll start\' and are seperated with a \'/\' with no spaces, stopping a poll will produce the results', false, MultiServerCommands.poll);
     addCommand('Vote', 'vote', undefined, 'vote [option]', 'Places your vote on the option you chose, based on the running poll in the server the \'poll start\' command was issued in', false, MultiServerCommands.vote);
 
     //admin commands
