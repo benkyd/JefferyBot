@@ -12,7 +12,7 @@ colors.setTheme({
 });
 
 module.exports.logMSG = function(msg) {
-  var time = getTime();
+  let time = getTime();
   console.log(
     '[' + time + '] '
     + 'In '
@@ -23,7 +23,6 @@ module.exports.logMSG = function(msg) {
     + msg.author.discriminator
     + ' issued the command: '
     + msg.content
-    .input
   );
 }
 
@@ -32,7 +31,7 @@ module.exports.logJOIN = function() {
 }
 
 module.exports.log = function(msg) {
-  var time = getTime();
+  let time = getTime();
   console.log(
     '[' + time + '] '
     + msg
@@ -41,7 +40,7 @@ module.exports.log = function(msg) {
 }
 
 module.exports.success = function(msg) {
-  var time = getTime();
+  let time = getTime();
   console.log(
     '[' + time + '] '
     + msg
@@ -52,7 +51,7 @@ module.exports.success = function(msg) {
 }
 
 module.exports.failed = function(msg) {
-  var time = getTime();
+  let time = getTime();
   console.log(
     '[' + time + '] '
     + msg
@@ -63,7 +62,7 @@ module.exports.failed = function(msg) {
 }
 
 module.exports.warn = function(msg) {
-  var time = getTime();
+  let time = getTime();
   console.log(
     '[' + time + '] '
     + msg
@@ -96,7 +95,7 @@ function pad(n, width, z) {
 }
 
 function getTime() {
-  var t = new Date();
-  var time = (pad(t.getHours(), 2) + ':' + pad(t.getMinutes(), 2) + ':' + pad(t.getSeconds(), 2))
+  let t = new Date();
+  let time = (pad(t.getHours(), 2) + ':' + pad(t.getMinutes(), 2) + ':' + pad(t.getSeconds(), 2))
   return time;
 }

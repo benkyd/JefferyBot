@@ -7,7 +7,7 @@ const Helper = require('../helper.js');
 
 /*message object, messaage full, message args, discord client*/
 
-module.exports.addadminrole = function(message, msg, args, discordclient) {
+module.exports.addadminrole = async function(message, msg, args, discordclient) {
   
 }
 
@@ -28,7 +28,7 @@ module.exports.reload = async function(message, msg, args, discordclient) {
 
 module.exports.setprefix = async function(message, msg, args, discordclient) {
   if (args[1]) {
-    var servers = Config.getservers()
+    let servers = Config.getservers()
     servers[message.guild.id].prefix = args[1]
     Config.setservers(servers);
     Config.writeToFile();
@@ -39,5 +39,39 @@ module.exports.setprefix = async function(message, msg, args, discordclient) {
 }
 
 module.exports.setgame = async function(message, msg, args, discordclient) {
+  if (args[1]) {
+    let newGame = '';
+    for (let i = 1; i < args.length; i++) {
+      newGame += args[i] + ' ';
+    }
 
+    Config.getconfig().NowPlaying = newGame;
+    Config.writeToFile();
+    discordclient.user.setActivity(Config.getconfig().NowPlaying);
+    message.channel.send(`:white_check_mark: \`Jeffery's game is now ${newGame} \``);
+  } else {
+    message.channel.send(':no_entry_sign: \`No new game specified\`')
+  }
+}
+
+module.exports.dumpRoles = async function(message, msg, args, discordclient) {
+  let output = 'Role name              | Role Snowflake ID \n---------------------------------------------------\n'
+  let padding = 22;
+
+  message.guild.roles.array().forEach((role) => {
+    let nameLength = role.name.length;
+    let spacing = padding - nameLength;
+    let rolename = role.name;
+    let roleID = role.id;
+
+    output += rolename;
+    for (let i = 0; i < spacing; i++) {
+      output += ' ';
+    }
+    output += ' | ';
+
+    output += roleID + '\n';
+  });
+
+  message.channel.send('```' + output + '```');
 }

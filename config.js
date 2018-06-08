@@ -1,7 +1,7 @@
-const fs = require("fs");
+const fs = require('fs');
 
-var config = {};
-var servers = {};
+let config = {};
+let servers = {};
 
 module.exports.getconfig = function() {
     return config;
@@ -23,6 +23,7 @@ module.exports.addServer = function(guild) {
   servers[guild.id] = {
     name: guild.name,
     rules: ["Oh yeah, arrays start at 0"],
+    birthdays: [],
     prefix: '+',
     adminroles: []
   }
@@ -30,7 +31,8 @@ module.exports.addServer = function(guild) {
 
 module.exports.loadDefaults = function() {
   config = {
-    Token: 'DISCORD_TOKEN',
+    Token: '[DISCORD TOKEN HERE]',
+    NASA_APIKey: '[NASA API KEY HERE]',
     NowPlaying: 'RealLife.exe',
     Version: '2.0.1',
   };
@@ -38,6 +40,7 @@ module.exports.loadDefaults = function() {
   servers['SERVER ID'] = {
     name: 'SERVER NAME',
     rules: ['RULE 0', 'RULE 1'],
+    birthdays: [],
     prefix: '+',
     adminroles: ['123456789101112', '123456789101112']
   };

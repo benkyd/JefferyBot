@@ -9,9 +9,11 @@ const Commands = require('./commands/commands')
 const CommandManager = require('./commandmanager');
 const Helper = require('./helper')
 
-const client = new Discord.Client({autoReconnect:true});
-Logger.welcome();
+const client = new Discord.Client({
+  autoReconnect:true,
+});
 
+Logger.welcome();
 
 /*checks if config exists*/
 if (!fs.existsSync('resources/config.json') || !fs.existsSync('resources/servers.json')) {
@@ -21,7 +23,6 @@ if (!fs.existsSync('resources/config.json') || !fs.existsSync('resources/servers
             fs.mkdirSync('resources/');
         }
         Config.loadDefaults();
-        /*gets all current servers info*/
         Config.writeToFile();
     }
     catch (e) {
@@ -52,6 +53,7 @@ try {
 } catch (e) {
   Logger.failed(`Could not connect to discord: ${e.message}`)
 }
+
 
 /*once connected*/
 client.on('ready', () => {
@@ -92,8 +94,8 @@ client.on('message', async (message) => {
     }
 
     Logger.logMSG(message);
-    var msg = message.content.toLowerCase().substring(Config.getservers()[message.guild.id].prefix.length);
-    var args = message.content.substring(Config.getservers()[message.guild.id].prefix.length).split(' ');
+    let msg = message.content.toLowerCase().substring(Config.getservers()[message.guild.id].prefix.length);
+    let args = message.content.substring(Config.getservers()[message.guild.id].prefix.length).split(' ');
     args[0] = args[0].toLowerCase();
 
     /*command manager checks if command exists*/
@@ -122,6 +124,19 @@ client.on('guildCreate', async (guild) => {
 /*on leave server event*/
 client.on('guildDelete', async (guild) => {
   Logger.log(`JefferyBot left the \'${guild.name}\' server!`);
+});
+
+client.on("guildMemberAdd", async member => {
+  if(member.guild.id == "443095663018770432") {
+      let role = member.guild.roles.find(r => r.name === "Regular Joe");
+      if (!role) {
+          Logger.log("role not found") 
+          return;
+      };
+      if(member.bot) return;
+      if(member.roles.find(r => r.name === "Regular Joe")) return Logger.warn("User already has role!");
+      member.addRole(role)
+  };
 });
 
 client.on("disconnected", function () {
