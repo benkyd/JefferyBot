@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const http = require('http');
-const ping = require('ping');
 const fs = require('fs');
 const request = require('request');
 const colors = require('colors');
@@ -21,5 +20,17 @@ module.exports.requestPromise = async function(url) {
 }
 
 module.exports.isUserAdmin = function(message) {
+  let isAdmin = false;
+  if(Config.getservers[message.guild.id].isUserAdmin) {
 
+  }
 }
+
+module.exports.sleep = function(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
+ 
