@@ -70,7 +70,9 @@ module.exports.nextlaunch = async function(message, msg, args, discordclient) {
         em.addField('Mission Type:', mission.typeName, true);
 
         em.addField('Agency Name:', missionagency.name, true);
-        em.addField('Agency Region', missionagency.countryCode, true);
+        em.addField('Agency Region:', missionagency.countryCode, true);
+
+
 
         em.addField('Mission Description:', mission.description)
 
