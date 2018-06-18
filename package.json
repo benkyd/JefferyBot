@@ -27,6 +27,8 @@
     "http": "0.0.0",
     "https": "^1.0.0",
     "ping": "^0.2.2",
+    "pureimage": "^0.1.6",
+    "pureimage-beta": "0.0.16",
     "qr-image": "^3.2.0",
     "request": "^2.86.0",
     "smartcar-unit": "^1.1.4"

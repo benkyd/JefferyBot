@@ -1,12 +1,13 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const PImage = require('pureimage');
 const Config = require('../config.js');
 const Helper = require('../helper.js');
 
 /*message object, messaage full, message args, discord client*/
 
 /*rule commands*/
-module.exports.rules = async function(message, msg, args, discordclient) {
+module.exports.rules = function(message, msg, args, discordclient) {
   let serverName = message.guild.name;
   let serverID = message.guild.id;
   let serversConfig = Config.getservers();
@@ -23,7 +24,7 @@ module.exports.rules = async function(message, msg, args, discordclient) {
   message.channel.send(em);
 }
 
-module.exports.rule = async function(message, msg, args, discordclient) {
+module.exports.rule = function(message, msg, args, discordclient) {
   let serverName = message.guild.name;
   let serverID = message.guild.id;
   let serversConfig = Config.getservers();
@@ -37,7 +38,7 @@ module.exports.rule = async function(message, msg, args, discordclient) {
   }
 }
 
-module.exports.addrule = async function(message, msg, args, discordclient) {
+module.exports.addrule = function(message, msg, args, discordclient) {
   let serverName = message.guild.name;
   let serverID = message.guild.id;
   let serversConfig = Config.getservers();
@@ -64,7 +65,7 @@ module.exports.addrule = async function(message, msg, args, discordclient) {
   message.channel.send(em);
 }
 
-module.exports.delrule = async function(message, msg, args, discordclient) {
+module.exports.delrule = function(message, msg, args, discordclient) {
   if (args[1]) {
     let serverName = message.guild.name;
     let serverID = message.guild.id;
@@ -91,7 +92,7 @@ module.exports.delrule = async function(message, msg, args, discordclient) {
   }
 }
 
-module.exports.editrule = async function(message, msg, args, discordclient) {
+module.exports.editrule = function(message, msg, args, discordclient) {
   let serverName = message.guild.name;
   let serverID = message.guild.id;
   let serversConfig = Config.getservers();
@@ -118,7 +119,7 @@ module.exports.editrule = async function(message, msg, args, discordclient) {
 }
 
 /*birthday commands*/
-module.exports.addbirthday = async function(message, msg, args, discordclient) {
+module.exports.addbirthday = function(message, msg, args, discordclient) {
   //input date is [DD/MM/YYYY] such that 14/05/2002
   let birthdays = Config.getservers()[message.guild.id].birthdays;
 
@@ -128,7 +129,7 @@ module.exports.addbirthday = async function(message, msg, args, discordclient) {
   Config.writeToFile();
 }
 
-module.exports.delbirthday = async function(message, msg, args, discordclient) {
+module.exports.delbirthday = function(message, msg, args, discordclient) {
   let birthdays = Config.getservers()[message.guild.id].birthdays;
 
 
@@ -137,11 +138,11 @@ module.exports.delbirthday = async function(message, msg, args, discordclient) {
   Config.writeToFile();
 }
 
-module.exports.nextbirthday = async function(message, msg, args, discordclient) {
+module.exports.nextbirthday = function(message, msg, args, discordclient) {
   let birthdays = Config.getservers()[message.guild.id].birthdays;
 }
 
-module.exports.allbirthdays = async function(message, msg, args, discordclient) {
+module.exports.allbirthdays = function(message, msg, args, discordclient) {
   let birthdays = Config.getservers()[message.guild.id].birthdays;
 }
 
@@ -253,7 +254,7 @@ module.exports.poll = async function(message, msg, args, discordclient) {
   }
 }
 
-module.exports.vote = async function(message, msg, args, discordclient) {
+module.exports.vote = function(message, msg, args, discordclient) {
   if (polls[message.guild.id]) {
     let poll = polls[message.guild.id];
     let hasVoted = false;
@@ -284,7 +285,7 @@ module.exports.vote = async function(message, msg, args, discordclient) {
 
       message.channel.send(`${message.author} voted for ${option}!`);
     } else {
-      message.channel.send(':no_entry_sign: \`You have allready voted\`');
+      message.channel.send(':no_entry_sign: \`You have already voted\`');
     }
   } else {
     message.channel.send(':no_entry_sign: \`There are no polls running at the moment, use \'poll start\' to start one\`');
@@ -324,15 +325,37 @@ module.exports.startGame = async function(message, msg, args, discordclient) {
   if (!chess[message.guild.id]) {
     if (args[1]) {
       try {
-        let player1 = message.mentions.members.first();
+        let player1;
+
+        try {
+          player1 = message.mentions.members.first();
+        } catch (e) {
+          message.channel.send(':no_entry_sign: \`You have not mentioned a user to play with...\`')      
+          return;
+        }
+        if (player1.id == message.author.id) {
+          message.channel.send(':no_entry_sign: \`You cannot play with yourself :(\`')      
+          return;
+        }
+        if (player1.id == discordclient.user.id) {
+          message.channel.send(':no_entry_sign: \`You cannot play with me :(\`')      
+          return;
+        }
+
         await initBoard(message, message.author, player1);
+        let board = await drawcurrentstate(message);
+
         
 
         let em = new Discord.RichEmbed();
-        em.setAuthor()
-        message.channel.send('```' + await drawcurrentstate(message) + '```');
+
+        em.addField()
+        //em.setImage(board);
+
+        message.channel.send(em);
 
       } catch (e) {
+        console.log(e);
         message.channel.send(':no_entry_sign: \`You have not mentioned a user to play with...\`')      
       }  
     } else {
@@ -351,8 +374,11 @@ module.exports.move = async function(message, msg, args, discordclient) {
 //game logic
 
 
-async function initBoard(message, p1, p2) {
+async function initBoard(message, p1, p2, channelID) {
   chess[message.guild.id] = {
+    channel: {
+      id: channelID
+    },
     board: await initMatrix(8, 8, '－'),
     prevMoves: [],
     winner: 0,
@@ -459,4 +485,12 @@ async function drawcurrentstate(message) {
   board += `└─－─┸─－─┴─－─┴─－─┴─－─┴─－─┴─－─┴─－─┴─－─┘\n`;
 
   return board;
+}
+
+function setupGame(guild) {
+
+}
+
+function disbandGame(guild) {
+
 }

@@ -9,15 +9,20 @@ const Helper = require('../helper.js');
 module.exports.nextlaunch = async function(message, msg, args, discordclient) {
   let url = 'https://launchlibrary.net/1.4/launch/next/1';
   try {
+    try {
+      let launch = JSON.parse(result).launches[0];
+  
+      let em = new Discord.RichEmbed();
+      em.setTitle(launch.name);
+      em.setColor('BLUE');
+      em.setAuthor('Next Launch Info:', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/1200px-NASA_logo.svg.png', 'https://spaceflightnow.com/launch-schedule/');
+      em.setThumbnail('https://www.nasa.gov/sites/default/files/saturnv-3_0.jpg');
+      em.url = launch.location.pads[0].mapURL;
+    } catch (e) {
+      message.channel.send(`:no_entry_sign: \`There was a problem with the API...\``);
+      return;
+    }
     let result = await Helper.requestPromise(url);
-    let launch = JSON.parse(result).launches[0];
-
-    let em = new Discord.RichEmbed();
-    em.setTitle(launch.name);
-    em.setColor('BLUE');
-    em.setAuthor('Next Launch Info:', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/1200px-NASA_logo.svg.png', 'https://spaceflightnow.com/launch-schedule/');
-    em.setThumbnail('https://www.nasa.gov/sites/default/files/saturnv-3_0.jpg');
-    em.url = launch.location.pads[0].mapURL;
 
     let status = 'Unknown';
     if (launch.status == 1) {
@@ -75,17 +80,10 @@ module.exports.nextlaunch = async function(message, msg, args, discordclient) {
 
     message.channel.send(em);
 
-<<<<<<< HEAD
-        em.addField('Agency Name:', missionagency.name, true);
-        em.addField('Agency Region:', missionagency.countryCode, true);
-
-
-=======
   } catch (e) {
     message.channel.send(`:no_entry_sign: \`There was a problem with the API...\``);
   }
 }
->>>>>>> d2e2c160e6597833c3bdf44372777e81e32eeb97
 
 module.exports.spaceimg = async function(message, msg, args, discordclient) {
   if (args.length >= 2) {
@@ -121,12 +119,12 @@ module.exports.spaceimg = async function(message, msg, args, discordclient) {
   }
 }
 
-module.exports.pictureoftheday = async function(message, msg, args, discordclient) {
+module.exports.pictureoftheday = function(message, msg, args, discordclient) {
   let apiKey = Config.getconfig().NASA_APIKey;
   let url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
 }
 
-module.exports.nearearthobj = async function(message, msg, args, discordclient) {
+module.exports.nearearthobj = function(message, msg, args, discordclient) {
   let apiKey = Config.getconfig().NASA_APIKey;
   let url = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY';
 }

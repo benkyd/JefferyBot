@@ -20,10 +20,20 @@ module.exports.requestPromise = async function(url) {
 }
 
 module.exports.isUserAdmin = function(message) {
-  let isAdmin = false;
-  if(Config.getservers[message.guild.id].isUserAdmin) {
-
+  if (message.author.id == Config.getconfig().OwnerID) {
+    return true;
   }
+  
+  message.author.roles.array.forEach(role => {
+    let r = role.id;
+    Config.getservers()[message.guild.id].adminroles.forEach((e) => {
+      if (r == e) {
+        return true;
+      }
+    });
+  });
+
+  return false;
 }
 
 module.exports.sleep = function(ms) {

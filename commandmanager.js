@@ -39,7 +39,11 @@ module.exports.loadCommands = function() {
   addCommand('HUG', 'hug', undefined, 'hug', 'Sends cutest hugs', false, Commands.hug);
   addCommand('Pallet', 'pallet', undefined, 'pallet [number of colours]', 'Returns a random colour palet with the amount of colours specified (2-7)', false, Commands.pallet);
   addCommand('QR Code', 'qr', undefined, 'qr [string]', 'Generates a QR code from the string of text provided', false, Commands.qr);
-  
+  addCommand('Is', 'is', undefined, 'is [thing]', 'Determains wheather a thing is a thing or not', false, Commands.is);
+  addCommand('Are', 'are', undefined, 'are [things a thing]', 'Determains wheather some things are things or not', false, Commands.are);
+  addCommand('YEET', 'yeet', undefined, 'yeet', 'Y E E T', false, Commands.YEET);
+  addCommand('DABBBBB', 'dab', undefined, 'dab', 'dabs on the h8rz', false, Commands.dab);
+
   //rule commands
   addCommand('Rules', 'rules', undefined, 'rules', 'Returns all the rules for the server the command was issued in', false, MultiServerCommands.rules);
   addCommand('Rule', 'rule', undefined, 'rule [rule number]', 'Returns corresponding rule for the server the command was issued in', false, MultiServerCommands.rule);
@@ -70,4 +74,6 @@ module.exports.loadCommands = function() {
   addCommand('Set Prefix', 'setprefix', undefined, 'setprefix [new prefix]', 'Changes Jeffery\'s prefix in the server it was issued in to the new prefix', true, AdminCommands.setprefix);
   addCommand('Set Game', 'setgame', undefined, 'setgame [new game]', 'Changes Jeffery\'s game to the new game', true, AdminCommands.setgame);
   addCommand('Dump Roles', 'dumproles', undefined, 'dumproles', 'Dumps the servers roles and their ID\'s', false, AdminCommands.dumpRoles);
+
+  addCommand('Output Servers Config', 'serverconfig', undefined, 'serverconfig', 'Dumps the server config file, only issuable by the bot owner themself', true, AdminCommands.serverconfig);
 }

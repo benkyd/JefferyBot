@@ -7,17 +7,17 @@ const Helper = require('../helper.js');
 
 /*message object, messaage full, message args, discord client*/
 
-module.exports.addadminrole = async function(message, msg, args, discordclient) {
+module.exports.addadminrole = function(message, msg, args, discordclient) {
   
 }
 
-module.exports.stop = async function(message, msg, args, discordclient) {
+module.exports.stop = function(message, msg, args, discordclient) {
   message.channel.send(':white_check_mark: \`Disconnected...\`');
   Logger.failed('Disconnected');
   discordclient.destroy();
 }
 
-module.exports.reload = async function(message, msg, args, discordclient) {
+module.exports.reload = function(message, msg, args, discordclient) {
   try {
     Config.loadFromFile();
     message.channel.send(':white_check_mark: \`Configuration reloaded...\`');
@@ -26,7 +26,7 @@ module.exports.reload = async function(message, msg, args, discordclient) {
   }
 }
 
-module.exports.setprefix = async function(message, msg, args, discordclient) {
+module.exports.setprefix = function(message, msg, args, discordclient) {
   if (args[1]) {
     let servers = Config.getservers()
     servers[message.guild.id].prefix = args[1]
@@ -38,7 +38,7 @@ module.exports.setprefix = async function(message, msg, args, discordclient) {
   }
 }
 
-module.exports.setgame = async function(message, msg, args, discordclient) {
+module.exports.setgame = function(message, msg, args, discordclient) {
   if (args[1]) {
     let newGame = '';
     for (let i = 1; i < args.length; i++) {
@@ -54,7 +54,7 @@ module.exports.setgame = async function(message, msg, args, discordclient) {
   }
 }
 
-module.exports.dumpRoles = async function(message, msg, args, discordclient) {
+module.exports.dumpRoles = function(message, msg, args, discordclient) {
   let output = 'Role name              | Role Snowflake ID \n---------------------------------------------------\n'
   let padding = 22;
 
@@ -74,4 +74,35 @@ module.exports.dumpRoles = async function(message, msg, args, discordclient) {
   });
 
   message.channel.send('```' + output + '```');
+}
+
+module.exports.serverconfig = async function (message, msg, args, discordclient) {
+  if (message.author.id == Config.getconfig().OwnerID) {//bot owners id
+    message.channel.send('Uploading...')
+    
+    let atm = new Discord.Attachment();
+    atm.setAttachment('./resources/servers.json', 'Servers.json');
+
+    message.channel.send(atm);
+    
+    await Helper.sleep(40);
+    message.channel.fetchMessages({ limit: 10 })
+    .then((_messages) => {
+      let messages = _messages.array();
+      let counter = 0;
+      for (let i = 0; i < messages.length; i++) {
+        if (messages[i].author.id === discordclient.user.id) {
+          if (counter == 0) {
+            counter++;
+          } else {
+            messages[i].delete();
+            return;
+          }
+        }
+      }
+    })
+    .catch();
+  } else {
+    message.channel.send(':no_entry_sign: \`You are not authorized to issue this command\`')
+  }
 }

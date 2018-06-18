@@ -24,6 +24,9 @@ if (!fs.existsSync('resources/config.json') || !fs.existsSync('resources/servers
         }
         Config.loadDefaults();
         Config.writeToFile();
+        Logger.success('Config Successfully created');
+        Logger.log('Add your bot token to the newly created /resources/config.json to use Jeffery');
+        process.exit(1);
     }
     catch (e) {
         Logger.warn(`Could not create the config: ${e.message}`);

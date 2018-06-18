@@ -33,6 +33,9 @@ module.exports.loadDefaults = function() {
   config = {
     Token: '[DISCORD TOKEN HERE]',
     NASA_APIKey: '[NASA API KEY HERE]',
+    InviteLink: '[BOT INVITE LINK HERE]',
+    AdminLink: '[ADMIN INVITE LINK HERE]',
+    OwnerID: '[YOUR ID HERE]',
     NowPlaying: 'RealLife.exe',
     Version: '2.0.1',
   };

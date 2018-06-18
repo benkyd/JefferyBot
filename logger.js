@@ -84,7 +84,7 @@ module.exports.welcome = function() {
                                    |___/
     `.rainbow);
     console.log('Invite JefferyBot to your server!  '
-    + 'https://discordapp.com/api/oauth2/authorize?client_id=423592273151000576&permissions=506981494&scope=bot' .debug);
+    + 'https://discordapp.com/oauth2/authorize?client_id=423592273151000576&permissions=8&scope=bot' .debug);
     console.log();
 }
 
