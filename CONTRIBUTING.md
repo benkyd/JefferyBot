@@ -20,5 +20,5 @@ When contributing or submitting pull requests follow these guidelines or your co
 * Keep code well commented
 
 ## Pull requests we reject
-s
+
 * Anything from b_boy_ww
