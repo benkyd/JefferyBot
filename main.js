@@ -63,7 +63,6 @@ client.on('ready', () => {
   try {
     Logger.success('Connected to discords API');
 
-
     /*adds all servers not in config to config*/
     Logger.log('Setting up the server spesific commands...')
     client.guilds.array().forEach((g) => {
@@ -73,7 +72,6 @@ client.on('ready', () => {
     });
     Config.writeToFile();
     Logger.success('Server commands set up');
-
 
     Logger.log('Logging in...')
     client.user.setPresence('online');
@@ -130,14 +128,14 @@ client.on('guildDelete', async (guild) => {
 });
 
 client.on("guildMemberAdd", async member => {
-  if(member.guild.id == "443095663018770432") {
+  if (member.guild.id == "443095663018770432") {
       let role = member.guild.roles.find(r => r.name === "Regular Joe");
       if (!role) {
           Logger.log("role not found") 
           return;
       };
-      if(member.bot) return;
-      if(member.roles.find(r => r.name === "Regular Joe")) return Logger.warn("User already has role!");
+      if (member.bot) return;
+      if (member.roles.find(r => r.name === "Regular Joe")) return Logger.warn("User already has role!");
       member.addRole(role)
   };
 });

@@ -74,6 +74,5 @@ module.exports.loadCommands = function() {
   addCommand('Set Prefix', 'setprefix', undefined, 'setprefix [new prefix]', 'Changes Jeffery\'s prefix in the server it was issued in to the new prefix', true, AdminCommands.setprefix);
   addCommand('Set Game', 'setgame', undefined, 'setgame [new game]', 'Changes Jeffery\'s game to the new game', true, AdminCommands.setgame);
   addCommand('Dump Roles', 'dumproles', undefined, 'dumproles', 'Dumps the servers roles and their ID\'s', false, AdminCommands.dumpRoles);
-
   addCommand('Output Servers Config', 'serverconfig', undefined, 'serverconfig', 'Dumps the server config file, only issuable by the bot owner themself', true, AdminCommands.serverconfig);
 }

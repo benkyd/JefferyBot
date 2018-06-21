@@ -23,7 +23,6 @@ module.exports.isUserAdmin = function(message) {
   if (message.author.id == Config.getconfig().OwnerID) {
     return true;
   }
-  
   message.author.roles.array.forEach(role => {
     let r = role.id;
     Config.getservers()[message.guild.id].adminroles.forEach((e) => {
@@ -32,7 +31,6 @@ module.exports.isUserAdmin = function(message) {
       }
     });
   });
-
   return false;
 }
 

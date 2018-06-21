@@ -151,15 +151,21 @@ let polls = {};
 
 module.exports.poll = async function(message, msg, args, discordclient) {
   if (args[1] == 'start') {
+    //checks if there is even a question
     if (args[2]) {
+      // checks if a poll is allready running
       if (!polls[message.guild.id]) {
+        // starts poll object
         await startPoll(message, args);
+
+        // makes output options string and removes end comma
         let options = '';
         for (i in polls[message.guild.id].options) {
           options += polls[message.guild.id].options[i] + ', ';
         }
         options = options.substring(0, options.length - 2);
 
+        // sends poll
         let em = new Discord.RichEmbed();
         em.setAuthor('Poll started!');
         em.setColor('BLUE');
@@ -177,30 +183,34 @@ module.exports.poll = async function(message, msg, args, discordclient) {
       return;
     }
   } else if (args[1] == 'stop') {
+    // checks if a poll is running
     if (polls[message.guild.id]) {
 
+      // takes poll objects, determines option with the most votes and maps that to an object
       let results = polls[message.guild.id].votes
-          .map((x, i) =>
-              {
-                  return {
-                      count: x,
-                      value: polls[message.guild.id].options[i]
-                  };
-               }
-          )
-          .sort((a, b) => b.count - a.count)
-          .filter((x, i, arr) => x.count == arr[0].count)
-          //.map(x => x.value)
+        .map((x, i) =>
+          {
+            return {
+              count: x,
+              value: polls[message.guild.id].options[i]
+            };
+          }
+        )
+        .sort((a, b) => b.count - a.count)
+        .filter((x, i, arr) => x.count == arr[0].count);
+        //.map(x => x.value)
 
       let winners = '';
       let votesForWinners = '';
-
+      
+      // makes winning string and adds the votes for the winners
       for (let i = 0; i < results.length; i++) {
-          winners += results[i].value + ' and ';
-          votesForWinners = results[i].count;
+        winners += results[i].value + ' and ';
+        votesForWinners = results[i].count;
       }
       winners = winners.substring(0, winners.length - 5);
 
+      // sends results
       let em = new Discord.RichEmbed();
       em.setAuthor('Poll Results');
       em.setColor('BLUE');
@@ -215,12 +225,16 @@ module.exports.poll = async function(message, msg, args, discordclient) {
       return;
     }
   } else if (args[1] == 'view') {
+    // checks if a poll is running
     if (polls[message.guild.id]) {
+
+      // gets current poll info
       let poll = polls[message.guild.id];
       let q = poll.pollq;
       let options = poll.options;
       let votes = poll.votes;
 
+      // bracing for votes
       let firstline = '';
       let secondline = ' ';
       for(let i = 0; i < options.length; i++) {
@@ -239,6 +253,7 @@ module.exports.poll = async function(message, msg, args, discordclient) {
       }
       firstline = firstline.substring(0, firstline.length - 2);
       
+      // sends message
       let em = new Discord.RichEmbed();
       em.setAuthor(`For the question \'${q}\'`);
       em.setTitle('With the options and votes:');
@@ -255,6 +270,7 @@ module.exports.poll = async function(message, msg, args, discordclient) {
 }
 
 module.exports.vote = function(message, msg, args, discordclient) {
+  // checks if a poll is running
   if (polls[message.guild.id]) {
     let poll = polls[message.guild.id];
     let hasVoted = false;
@@ -345,14 +361,8 @@ module.exports.startGame = async function(message, msg, args, discordclient) {
         await initBoard(message, message.author, player1);
         let board = await drawcurrentstate(message);
 
-        
-
-        let em = new Discord.RichEmbed();
-
-        em.addField()
-        //em.setImage(board);
-
-        message.channel.send(em);
+        message.channel.send('```' + board + '```');
+        message.channel.send();
 
       } catch (e) {
         console.log(e);

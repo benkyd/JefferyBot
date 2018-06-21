@@ -23,3 +23,4 @@ MIT
 ## Contrubuters
 
 - Ben (plane000)#8618 - Creator, maintaner
+- xX_WhatsTheGeek_Xx#8606 - Contributer
